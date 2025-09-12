@@ -17,7 +17,7 @@ export function MangaCard({ manga, showStats = true }: MangaCardProps) {
           {/* Cover Image */}
           <div className="relative aspect-[3/4] overflow-hidden rounded-t-lg">
             <img
-              src={manga.coverImage}
+              src={manga.coverImage || manga.cover_image}
               alt={manga.title}
               className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
               loading="lazy"
@@ -63,14 +63,14 @@ export function MangaCard({ manga, showStats = true }: MangaCardProps) {
 
             {/* Genres */}
             <div className="flex flex-wrap gap-1">
-              {manga.genre.slice(0, 2).map((genre) => (
+              {(manga.genre || []).slice(0, 2).map((genre) => (
                 <Badge key={genre} variant="outline" className="text-xs">
                   {genre}
                 </Badge>
               ))}
-              {manga.genre.length > 2 && (
+              {(manga.genre && manga.genre.length > 2) && (
                 <Badge variant="outline" className="text-xs">
-                  +{manga.genre.length - 2}
+                  +{(manga.genre?.length || 0) - 2}
                 </Badge>
               )}
             </div>
@@ -81,13 +81,13 @@ export function MangaCard({ manga, showStats = true }: MangaCardProps) {
                 <div className="flex items-center gap-1">
                   <Star className="h-3 w-3 fill-current text-yellow-500" />
                   <span data-testid={`text-manga-rating-${manga.id}`}>
-                    {manga.rating.toFixed(1)}
+                    {(manga.rating || 0).toFixed(1)}
                   </span>
                 </div>
                 <div className="flex items-center gap-1">
                   <Eye className="h-3 w-3" />
                   <span data-testid={`text-manga-views-${manga.id}`}>
-                    {manga.views.toLocaleString()}
+                    {(manga.views || 0).toLocaleString()}
                   </span>
                 </div>
               </div>

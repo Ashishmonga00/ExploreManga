@@ -1,22 +1,28 @@
 import { z } from "zod";
 
-// Manga schema
+// Real manga schema based on provided JSON structure
 export const mangaSchema = z.object({
   id: z.string(),
   title: z.string(),
-  author: z.string(),
-  genre: z.array(z.string()),
-  status: z.enum(["ongoing", "completed", "hiatus"]),
-  description: z.string(),
-  coverImage: z.string(),
+  url: z.string(),
+  cover_image: z.string(),
+  attributes: z.array(z.string()),
+  summary: z.string(),
   chapters: z.array(z.object({
-    id: z.string(),
-    number: z.number(),
+    chapter_no: z.number(),
     title: z.string(),
-    releaseDate: z.string(),
+    url: z.string(),
+    images: z.array(z.string()),
+    page_count: z.number(),
   })),
-  rating: z.number().min(0).max(10),
-  views: z.number(),
+  // Computed fields for compatibility with frontend
+  author: z.string().optional(),
+  genre: z.array(z.string()).optional(),
+  status: z.enum(["ongoing", "completed", "hiatus"]).optional(),
+  description: z.string().optional(),
+  coverImage: z.string().optional(),
+  rating: z.number().min(0).max(10).optional(),
+  views: z.number().optional(),
   isPopular: z.boolean().optional(),
   isFeatured: z.boolean().optional(),
 });

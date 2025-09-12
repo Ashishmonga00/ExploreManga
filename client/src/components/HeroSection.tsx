@@ -56,7 +56,7 @@ export function HeroSection({ featuredManga }: HeroSectionProps) {
           <div className="max-w-2xl">
             <div className="space-y-4">
               <div className="flex flex-wrap gap-2">
-                {currentManga.genre.slice(0, 3).map((genre) => (
+                {(currentManga.genre || []).slice(0, 3).map((genre) => (
                   <Badge key={genre} variant="secondary" className="bg-background/80 backdrop-blur">
                     {genre}
                   </Badge>
