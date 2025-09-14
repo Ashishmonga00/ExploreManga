@@ -1,19 +1,20 @@
 import { HeroSection } from "@/components/HeroSection";
 import { MangaGrid } from "@/components/MangaGrid";
+import { Footer } from "@/components/Footer";
 import { useQuery } from "@tanstack/react-query";
 import type { Manga } from "@shared/schema";
 
 
 export default function Home() {
-  const { data: featuredManga = [], isLoading: featuredLoading } = useQuery({
+  const { data: featuredManga = [], isLoading: featuredLoading } = useQuery<Manga[]>({
     queryKey: ['/api/manga?featured=true'],
   });
 
-  const { data: popularManga = [], isLoading: popularLoading } = useQuery({
+  const { data: popularManga = [], isLoading: popularLoading } = useQuery<Manga[]>({
     queryKey: ['/api/manga?popular=true'],
   });
 
-  const { data: allManga = [], isLoading: allLoading } = useQuery({
+  const { data: allManga = [], isLoading: allLoading } = useQuery<Manga[]>({
     queryKey: ['/api/manga'],
   });
 
@@ -48,6 +49,7 @@ export default function Home() {
           title="Recently Added"
         />
       </main>
+      <Footer />
     </div>
   );
 }

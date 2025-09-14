@@ -1,9 +1,10 @@
+import { useState } from "react";
 import { useRoute, useLocation, Link } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Star, Eye, BookOpen, Calendar, User } from "lucide-react";
+import { Star, Eye, BookOpen, Calendar, User, ArrowUpDown, ArrowUp, ArrowDown } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import type { Manga } from "@shared/schema";
 
@@ -12,6 +13,7 @@ export default function MangaDetail() {
   const [, params] = useRoute("/manga/:id");
   const [, setLocation] = useLocation();
   const mangaId = params?.id || "";
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   
   const { data: manga, isLoading, error } = useQuery<Manga>({
     queryKey: [`/api/manga/${mangaId}`],
@@ -46,6 +48,12 @@ export default function MangaDetail() {
   const handleReadChapter = (chapterNo: number) => {
     setLocation(`/manga/${mangaId}/chapter/${chapterNo}`);
   };
+
+  const sortedChapters = manga ? [...manga.chapters].sort((a, b) => {
+    return sortOrder === "asc" 
+      ? a.chapter_no - b.chapter_no 
+      : b.chapter_no - a.chapter_no;
+  }) : [];
 
   return (
     <div className="min-h-screen bg-background">
@@ -157,14 +165,36 @@ export default function MangaDetail() {
               <CardHeader>
                 <CardTitle className="flex items-center justify-between">
                   <span>Chapters</span>
-                  <Badge variant="secondary">
-                    {manga.chapters.length} chapters
-                  </Badge>
+                  <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1">
+                      <Button
+                        variant={sortOrder === "asc" ? "default" : "outline"}
+                        size="sm"
+                        onClick={() => setSortOrder("asc")}
+                        data-testid="button-sort-first-to-last"
+                      >
+                        <ArrowUp className="h-3 w-3 mr-1" />
+                        First to Last
+                      </Button>
+                      <Button
+                        variant={sortOrder === "desc" ? "default" : "outline"}
+                        size="sm"
+                        onClick={() => setSortOrder("desc")}
+                        data-testid="button-sort-last-to-first"
+                      >
+                        <ArrowDown className="h-3 w-3 mr-1" />
+                        Last to First
+                      </Button>
+                    </div>
+                    <Badge variant="secondary">
+                      {manga.chapters.length} chapters
+                    </Badge>
+                  </div>
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-2">
-                  {manga.chapters.map((chapter, index) => (
+                  {sortedChapters.map((chapter, index) => (
                     <div
                       key={index}
                       className="flex items-center justify-between p-3 rounded-md border hover:bg-muted/50 transition-colors cursor-pointer hover-elevate"
