@@ -1,4 +1,4 @@
-import { useRoute, Link } from "wouter";
+import { useRoute, useLocation, Link } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -10,9 +10,10 @@ import type { Manga } from "@shared/schema";
 
 export default function MangaDetail() {
   const [, params] = useRoute("/manga/:id");
+  const [, setLocation] = useLocation();
   const mangaId = params?.id || "";
   
-  const { data: manga, isLoading, error } = useQuery({
+  const { data: manga, isLoading, error } = useQuery<Manga>({
     queryKey: [`/api/manga/${mangaId}`],
     enabled: !!mangaId,
   });
@@ -43,8 +44,7 @@ export default function MangaDetail() {
   }
 
   const handleReadChapter = (chapterNo: number) => {
-    console.log(`Reading chapter ${chapterNo} of ${manga.title}`);
-    // TODO: Navigate to chapter reader
+    setLocation(`/manga/${mangaId}/chapter/${chapterNo}`);
   };
 
   return (
@@ -107,10 +107,16 @@ export default function MangaDetail() {
                     <div className="space-y-2">
                       <p className="text-sm font-medium">Genres</p>
                       <div className="flex flex-wrap gap-2">
-                        {(manga.genre || []).map((genre) => (
-                          <Badge key={genre} variant="outline" className="text-xs">
-                            {genre}
-                          </Badge>
+                        {(manga.genre || []).map((genre: string) => (
+                          <Link key={genre} href={`/categories/${genre.toLowerCase()}`}>
+                            <Badge 
+                              variant="outline" 
+                              className="text-xs cursor-pointer hover-elevate" 
+                              data-testid={`link-genre-${genre.toLowerCase()}`}
+                            >
+                              {genre}
+                            </Badge>
+                          </Link>
                         ))}
                       </div>
                     </div>
@@ -121,7 +127,7 @@ export default function MangaDetail() {
                   <Button 
                     size="lg" 
                     className="w-full"
-                    onClick={() => handleReadChapter(1)}
+                    onClick={() => handleReadChapter(manga.chapters?.[0]?.chapter_no || 1)}
                     data-testid={`button-start-reading-${manga.id}`}
                   >
                     <BookOpen className="mr-2 h-4 w-4" />
