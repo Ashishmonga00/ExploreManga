@@ -2,6 +2,7 @@ import { useRoute, useLocation, Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { SEO } from "@/components/SEO";
 import { ChevronLeft, ChevronRight, ArrowLeft, BookOpen } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import type { Manga } from "@shared/schema";
@@ -72,6 +73,13 @@ export default function ChapterReader() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO 
+        title={`${manga.title} - Chapter ${currentChapter.chapter_no}: ${currentChapter.title} | MangaLibrary`}
+        description={`Read ${manga.title} Chapter ${currentChapter.chapter_no} online for free. ${currentChapter.page_count} pages of high-quality manga on MangaLibrary.`}
+        keywords={`${manga.title}, chapter ${currentChapter.chapter_no}, manga reader, read online`}
+        type="article"
+      />
+      
       {/* Header with navigation */}
       <div className="sticky top-0 z-50 bg-background border-b">
         <div className="max-w-4xl mx-auto px-4 py-3">

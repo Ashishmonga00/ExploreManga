@@ -10,6 +10,8 @@ import Categories from "@/pages/Categories";
 import CategoryPage from "@/pages/CategoryPage";
 import MangaDetail from "@/pages/MangaDetail";
 import ChapterReader from "@/pages/ChapterReader";
+import SearchResults from "@/pages/SearchResults";
+import Authors from "@/pages/Authors";
 import Contact from "@/pages/Contact";
 import NotFound from "@/pages/not-found";
 
@@ -21,6 +23,8 @@ function Router() {
       <Route path="/categories/:category" component={CategoryPage} />
       <Route path="/manga/:id/chapter/:chapterNo" component={ChapterReader} />
       <Route path="/manga/:id" component={MangaDetail} />
+      <Route path="/search" component={SearchResults} />
+      <Route path="/authors" component={Authors} />
       <Route path="/contact" component={Contact} />
       <Route component={NotFound} />
     </Switch>

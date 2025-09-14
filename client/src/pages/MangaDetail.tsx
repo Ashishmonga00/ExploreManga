@@ -4,7 +4,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Star, Eye, BookOpen, Calendar, User, ArrowUpDown, ArrowUp, ArrowDown } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { SEO } from "@/components/SEO";
+import { Star, Eye, BookOpen, Calendar, User, ArrowUpDown, ArrowUp, ArrowDown, Search } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import type { Manga } from "@shared/schema";
 
@@ -14,6 +16,7 @@ export default function MangaDetail() {
   const [, setLocation] = useLocation();
   const mangaId = params?.id || "";
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+  const [chapterSearch, setChapterSearch] = useState("");
   
   const { data: manga, isLoading, error } = useQuery<Manga>({
     queryKey: [`/api/manga/${mangaId}`],
@@ -49,14 +52,31 @@ export default function MangaDetail() {
     setLocation(`/manga/${mangaId}/chapter/${chapterNo}`);
   };
 
-  const sortedChapters = manga ? [...manga.chapters].sort((a, b) => {
-    return sortOrder === "asc" 
-      ? a.chapter_no - b.chapter_no 
-      : b.chapter_no - a.chapter_no;
-  }) : [];
+  const sortedAndFilteredChapters = manga ? [...manga.chapters]
+    .sort((a, b) => {
+      return sortOrder === "asc" 
+        ? a.chapter_no - b.chapter_no 
+        : b.chapter_no - a.chapter_no;
+    })
+    .filter(chapter => {
+      if (!chapterSearch.trim()) return true;
+      const searchLower = chapterSearch.toLowerCase();
+      return (
+        chapter.title.toLowerCase().includes(searchLower) ||
+        chapter.chapter_no.toString().includes(searchLower)
+      );
+    }) : [];
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO 
+        title={`${manga.title} - Read Online | MangaLibrary`}
+        description={`Read ${manga.title} manga online for free. ${manga.description || manga.summary || `${manga.title} is available with all chapters on MangaLibrary.`}`}
+        keywords={`${manga.title}, manga, read online, ${manga.author}, ${(manga.genre || []).join(', ')}`}
+        image={manga.cover_image || manga.coverImage}
+        type="article"
+      />
+      
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Cover and Basic Info */}
@@ -187,14 +207,28 @@ export default function MangaDetail() {
                       </Button>
                     </div>
                     <Badge variant="secondary">
-                      {manga.chapters.length} chapters
+                      {sortedAndFilteredChapters.length}{chapterSearch ? ` of ${manga.chapters.length}` : ''} chapters
                     </Badge>
                   </div>
                 </CardTitle>
+                <div className="mt-4">
+                  <div className="relative">
+                    <Input
+                      type="search"
+                      placeholder="Search chapters..."
+                      value={chapterSearch}
+                      onChange={(e) => setChapterSearch(e.target.value)}
+                      className="pl-10"
+                      data-testid="input-chapter-search"
+                    />
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  </div>
+                </div>
               </CardHeader>
               <CardContent>
                 <div className="space-y-2">
-                  {sortedChapters.map((chapter, index) => (
+                  {sortedAndFilteredChapters.length > 0 ? (
+                    sortedAndFilteredChapters.map((chapter, index) => (
                     <div
                       key={index}
                       className="flex items-center justify-between p-3 rounded-md border hover:bg-muted/50 transition-colors cursor-pointer hover-elevate"
@@ -212,7 +246,25 @@ export default function MangaDetail() {
                       </div>
                       <BookOpen className="h-4 w-4 text-muted-foreground" />
                     </div>
-                  ))}
+                  ))
+                  ) : (
+                    <div className="text-center py-8">
+                      <Search className="h-12 w-12 mx-auto text-muted-foreground mb-3" />
+                      <p className="text-muted-foreground">
+                        {chapterSearch ? `No chapters found matching "${chapterSearch}"` : "No chapters available"}
+                      </p>
+                      {chapterSearch && (
+                        <Button 
+                          variant="outline" 
+                          size="sm" 
+                          className="mt-3"
+                          onClick={() => setChapterSearch("")}
+                        >
+                          Clear Search
+                        </Button>
+                      )}
+                    </div>
+                  )}
                 </div>
               </CardContent>
             </Card>

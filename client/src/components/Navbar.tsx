@@ -6,20 +6,23 @@ import { Input } from "@/components/ui/input";
 import { ThemeToggle } from "./ThemeToggle";
 
 export function Navbar() {
-  const [location] = useLocation();
+  const [location, setLocation] = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
   const navItems = [
     { name: "Home", href: "/" },
     { name: "Categories", href: "/categories" },
+    { name: "Authors", href: "/authors" },
     { name: "Contact", href: "/contact" },
   ];
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Search triggered:", searchQuery);
-    // TODO: Implement search functionality
+    if (searchQuery.trim()) {
+      setLocation(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+      setIsMenuOpen(false); // Close mobile menu if open
+    }
   };
 
   return (
