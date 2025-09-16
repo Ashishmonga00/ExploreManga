@@ -1,5 +1,6 @@
 import { useRoute } from "wouter";
 import { MangaGrid } from "@/components/MangaGrid";
+import { SEO } from "@/components/SEO";
 import { Badge } from "@/components/ui/badge";
 import { useQuery } from "@tanstack/react-query";
 import type { Manga } from "@shared/schema";
@@ -37,6 +38,13 @@ export default function CategoryPage() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO 
+        title={`${categoryName} Manga - Browse ${categoryName} Series | MangaLibrary`}
+        description={`Discover ${categoryManga.length} ${categoryName.toLowerCase()} manga series on MangaLibrary. ${description} Read your favorite ${categoryName.toLowerCase()} manga online for free.`}
+        keywords={`${categoryName.toLowerCase()} manga, ${categoryName.toLowerCase()} series, read ${categoryName.toLowerCase()} manga online, ${categoryName.toLowerCase()} comics`}
+        type="website"
+        url={typeof window !== 'undefined' ? window.location.href : ''}
+      />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="space-y-8">
           {/* Header */}
