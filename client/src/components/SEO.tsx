@@ -7,6 +7,7 @@ interface SEOProps {
   image?: string;
   url?: string;
   type?: "website" | "article";
+  robots?: string;
 }
 
 export function SEO({ 
@@ -15,7 +16,8 @@ export function SEO({
   keywords = "", 
   image = "",
   url = "",
-  type = "website"
+  type = "website",
+  robots = "index, follow"
 }: SEOProps) {
   useEffect(() => {
     // Set page title
@@ -39,7 +41,7 @@ export function SEO({
     setMetaTag("description", description);
     if (keywords) setMetaTag("keywords", keywords);
     setMetaTag("viewport", "width=device-width, initial-scale=1");
-    setMetaTag("robots", "index, follow");
+    setMetaTag("robots", robots);
 
     // Open Graph meta tags
     setMetaTag("og:title", title, true);
@@ -60,7 +62,7 @@ export function SEO({
     setMetaTag("theme-color", "#a855f7"); // Purple theme color
     setMetaTag("apple-mobile-web-app-capable", "yes");
     setMetaTag("apple-mobile-web-app-status-bar-style", "default");
-  }, [title, description, keywords, image, url, type]);
+  }, [title, description, keywords, image, url, type, robots]);
 
   return null; // This component doesn't render anything
 }
