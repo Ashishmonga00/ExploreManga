@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { SEO } from "@/components/SEO";
 import { Mail, MessageSquare, Phone, MapPin } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -39,6 +40,12 @@ export default function Contact() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO 
+        title="Contact Us - Get in Touch | MangaLibrary"
+        description="Have a question, suggestion, or feedback about MangaLibrary? Contact our team and we'll get back to you soon. We'd love to hear from you!"
+        keywords="contact mangalibrary, manga support, customer service, feedback, help, questions"
+        type="website"
+      />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="space-y-8">
           {/* Header */}
