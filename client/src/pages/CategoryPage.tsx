@@ -17,7 +17,7 @@ export default function CategoryPage() {
   const [, params] = useRoute("/categories/:category");
   const category = params?.category || "";
   
-  const { data: categoryManga = [], isLoading } = useQuery({
+  const { data: categoryManga = [], isLoading } = useQuery<Manga[]>({
     queryKey: [`/api/categories/${category}`],
   });
 
