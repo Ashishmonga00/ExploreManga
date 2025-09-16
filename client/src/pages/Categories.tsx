@@ -1,10 +1,11 @@
 import { CategoryList } from "@/components/CategoryList";
+import { SEO } from "@/components/SEO";
 import { useQuery } from "@tanstack/react-query";
 import type { Category } from "@shared/schema";
 
 
 export default function Categories() {
-  const { data: categories = [], isLoading } = useQuery({
+  const { data: categories = [], isLoading } = useQuery<Category[]>({
     queryKey: ['/api/categories'],
   });
 
@@ -21,6 +22,12 @@ export default function Categories() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO 
+        title="Browse Manga Categories | MangaLibrary"
+        description={`Explore manga across all genres and categories. Browse ${categories.length} categories including action, romance, fantasy, horror, comedy and more. Find the perfect manga for your mood.`}
+        keywords="manga categories, browse genres, action manga, romance manga, fantasy manga, horror manga, comedy manga, manga genres"
+        type="website"
+      />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="space-y-8">
           {/* Header */}
