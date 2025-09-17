@@ -38,11 +38,11 @@ export function HeroSection({ featuredManga }: HeroSectionProps) {
   const currentManga = featuredManga[currentIndex];
 
   return (
-    <div className="relative h-[60vh] min-h-[400px] overflow-hidden rounded-lg mb-8">
+    <div className="relative h-[40vh] min-h-[300px] md:h-[45vh] md:min-h-[350px] overflow-hidden rounded-lg mb-6">
       {/* Background Image */}
       <div className="absolute inset-0">
         <img
-          src={currentManga.coverImage}
+          src={currentManga.coverImage || (currentManga as any).cover_image}
           alt={currentManga.title}
           className="w-full h-full object-cover"
         />
@@ -63,30 +63,32 @@ export function HeroSection({ featuredManga }: HeroSectionProps) {
                 ))}
               </div>
 
-              <h1 className="text-4xl md:text-6xl font-display font-bold text-white leading-tight">
+              <h1 className="text-2xl md:text-4xl lg:text-5xl font-display font-bold text-white leading-tight">
                 {currentManga.title}
               </h1>
 
-              <p className="text-lg text-white/90 font-medium">
+              <p className="text-base md:text-lg text-white/90 font-medium">
                 by {currentManga.author}
               </p>
 
-              <p className="text-white/80 max-w-lg line-clamp-3">
+              <p className="text-sm md:text-base text-white/80 max-w-lg line-clamp-2 md:line-clamp-3 hidden sm:block">
                 {currentManga.description}
               </p>
 
-              <div className="flex gap-4 pt-4">
+              <div className="flex gap-3 pt-3">
                 <Link href={`/manga/${currentManga.id}`}>
-                  <Button size="lg" className="bg-primary hover:bg-primary/90">
+                  <Button size="default" data-testid={`button-hero-read-${currentManga.id}`}>
                     <BookOpen className="mr-2 h-4 w-4" />
-                    Read Now
+                    <span className="hidden sm:inline">Read Now</span>
+                    <span className="sm:hidden">Read</span>
                   </Button>
                 </Link>
                 <Button 
-                  size="lg" 
+                  size="default" 
                   variant="outline" 
-                  className="bg-background/20 backdrop-blur border-white/20 text-white hover:bg-background/30"
+                  className="bg-background/20 backdrop-blur border-white/20 text-white hidden sm:flex"
                   onClick={() => console.log("Preview clicked")}
+                  data-testid={`button-hero-preview-${currentManga.id}`}
                 >
                   <Play className="mr-2 h-4 w-4" />
                   Preview
@@ -100,7 +102,7 @@ export function HeroSection({ featuredManga }: HeroSectionProps) {
         <Button
           variant="ghost"
           size="icon"
-          className="absolute left-4 top-1/2 -translate-y-1/2 bg-background/20 backdrop-blur hover:bg-background/30 text-white"
+          className="absolute left-4 top-1/2 -translate-y-1/2 bg-background/20 backdrop-blur text-white"
           onClick={prevSlide}
           data-testid="button-hero-prev"
         >
@@ -110,7 +112,7 @@ export function HeroSection({ featuredManga }: HeroSectionProps) {
         <Button
           variant="ghost"
           size="icon"
-          className="absolute right-4 top-1/2 -translate-y-1/2 bg-background/20 backdrop-blur hover:bg-background/30 text-white"
+          className="absolute right-4 top-1/2 -translate-y-1/2 bg-background/20 backdrop-blur text-white"
           onClick={nextSlide}
           data-testid="button-hero-next"
         >
