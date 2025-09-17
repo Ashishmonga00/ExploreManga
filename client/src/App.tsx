@@ -14,6 +14,9 @@ import ChapterReader from "@/pages/ChapterReader";
 import SearchResults from "@/pages/SearchResults";
 import Authors from "@/pages/Authors";
 import Contact from "@/pages/Contact";
+import Privacy from "@/pages/Privacy";
+import Terms from "@/pages/Terms";
+import DMCA from "@/pages/DMCA";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -27,6 +30,9 @@ function Router() {
       <Route path="/search" component={SearchResults} />
       <Route path="/authors" component={Authors} />
       <Route path="/contact" component={Contact} />
+      <Route path="/privacy" component={Privacy} />
+      <Route path="/terms" component={Terms} />
+      <Route path="/dmca" component={DMCA} />
       <Route component={NotFound} />
     </Switch>
   );
