@@ -116,15 +116,21 @@ export function Footer() {
             © {currentYear} MangaVerse. All rights reserved.
           </div>
           <div className="flex items-center gap-6 text-sm">
-            <Button variant="ghost" className="p-0 h-auto text-muted-foreground hover:text-primary text-xs" data-testid="link-footer-privacy">
-              Privacy
-            </Button>
-            <Button variant="ghost" className="p-0 h-auto text-muted-foreground hover:text-primary text-xs" data-testid="link-footer-terms">
-              Terms
-            </Button>
-            <Button variant="ghost" className="p-0 h-auto text-muted-foreground hover:text-primary text-xs" data-testid="link-footer-dmca">
-              DMCA
-            </Button>
+            <Link href="/privacy">
+              <Button variant="ghost" className="p-0 h-auto text-muted-foreground hover:text-primary text-xs" data-testid="link-footer-privacy">
+                Privacy
+              </Button>
+            </Link>
+            <Link href="/terms">
+              <Button variant="ghost" className="p-0 h-auto text-muted-foreground hover:text-primary text-xs" data-testid="link-footer-terms">
+                Terms
+              </Button>
+            </Link>
+            <Link href="/dmca">
+              <Button variant="ghost" className="p-0 h-auto text-muted-foreground hover:text-primary text-xs" data-testid="link-footer-dmca">
+                DMCA
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
