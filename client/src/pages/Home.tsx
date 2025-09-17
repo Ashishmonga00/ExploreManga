@@ -1,6 +1,5 @@
 import { HeroSection } from "@/components/HeroSection";
 import { MangaGrid } from "@/components/MangaGrid";
-import { Footer } from "@/components/Footer";
 import { SEO } from "@/components/SEO";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -227,7 +226,6 @@ export default function Home() {
           </div>
         </section>
       </main>
-      <Footer />
     </div>
   );
 }
