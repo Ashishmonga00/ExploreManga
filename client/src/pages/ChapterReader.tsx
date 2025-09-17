@@ -4,8 +4,10 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { SEO } from "@/components/SEO";
 import { ChevronLeft, ChevronRight, ArrowLeft, BookOpen } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
-import type { Manga } from "@shared/schema";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { apiRequest, queryClient } from "@/lib/queryClient";
+import { useEffect } from "react";
+import type { Manga, InsertReadingProgress } from "@shared/schema";
 
 export default function ChapterReader() {
   const [, params] = useRoute("/manga/:id/chapter/:chapterNo");
@@ -17,6 +19,17 @@ export default function ChapterReader() {
   const { data: manga, isLoading, error } = useQuery<Manga>({
     queryKey: [`/api/manga/${mangaId}`],
     enabled: !!mangaId,
+  });
+
+  // Mutation to save reading progress
+  const saveProgressMutation = useMutation({
+    mutationFn: async (progress: InsertReadingProgress) => {
+      return apiRequest("POST", "/api/reading-progress", progress);
+    },
+    onSuccess: () => {
+      // Invalidate reading progress cache to refresh the UI
+      queryClient.invalidateQueries({ queryKey: ['/api/reading-progress'] });
+    },
   });
 
   if (isLoading) {
@@ -67,7 +80,22 @@ export default function ChapterReader() {
   const prevChapter = currentChapterIndex > 0 ? manga.chapters[currentChapterIndex - 1] : null;
   const nextChapter = currentChapterIndex < manga.chapters.length - 1 ? manga.chapters[currentChapterIndex + 1] : null;
 
+  // Save reading progress when chapter loads or changes
+  useEffect(() => {
+    if (manga && currentChapter) {
+      const progress: InsertReadingProgress = {
+        mangaId,
+        chapterNo,
+        pageNo: 1, // First page (1-indexed)
+        lastReadAt: new Date().toISOString(),
+      };
+
+      saveProgressMutation.mutate(progress);
+    }
+  }, [manga, currentChapter, mangaId, chapterNo]);
+
   const navigateToChapter = (targetChapterNo: number) => {
+    // Simply navigate - progress will be saved by useEffect after route change
     setLocation(`/manga/${mangaId}/chapter/${targetChapterNo}`);
   };
 
