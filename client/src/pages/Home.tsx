@@ -77,14 +77,14 @@ export default function Home() {
               placeholder="Search for manga, authors, or genres..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="h-14 pl-12 pr-4 text-lg rounded-full border-2 focus:border-primary"
+              className="h-12 pl-10 pr-20 rounded-md"
               data-testid="input-homepage-search"
             />
-            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Button 
               type="submit" 
-              size="lg" 
-              className="absolute right-2 top-1/2 transform -translate-y-1/2 rounded-full h-10 px-6"
+              size="sm" 
+              className="absolute right-2 top-1/2 transform -translate-y-1/2 rounded-md"
               data-testid="button-homepage-search"
             >
               Search

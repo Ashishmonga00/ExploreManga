@@ -14,18 +14,22 @@ export function HeroSection({ featuredManga }: HeroSectionProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % featuredManga.length);
-    }, 5000);
+    if (featuredManga.length > 1) {
+      const timer = setInterval(() => {
+        setCurrentIndex((prev) => (prev + 1) % featuredManga.length);
+      }, 5000);
 
-    return () => clearInterval(timer);
+      return () => clearInterval(timer);
+    }
   }, [featuredManga.length]);
 
   const nextSlide = () => {
+    if (featuredManga.length < 2) return;
     setCurrentIndex((prev) => (prev + 1) % featuredManga.length);
   };
 
   const prevSlide = () => {
+    if (featuredManga.length < 2) return;
     setCurrentIndex((prev) => 
       prev === 0 ? featuredManga.length - 1 : prev - 1
     );
@@ -52,7 +56,7 @@ export function HeroSection({ featuredManga }: HeroSectionProps) {
       <Button
         variant="ghost"
         size="icon"
-        className="absolute left-4 top-1/2 -translate-y-1/2 bg-background/30 backdrop-blur text-white hover:bg-background/50"
+        className="absolute left-4 top-1/2 -translate-y-1/2 bg-background/30 backdrop-blur text-white"
         onClick={prevSlide}
         data-testid="button-hero-prev"
       >
@@ -62,7 +66,7 @@ export function HeroSection({ featuredManga }: HeroSectionProps) {
       <Button
         variant="ghost"
         size="icon"
-        className="absolute right-4 top-1/2 -translate-y-1/2 bg-background/30 backdrop-blur text-white hover:bg-background/50"
+        className="absolute right-4 top-1/2 -translate-y-1/2 bg-background/30 backdrop-blur text-white"
         onClick={nextSlide}
         data-testid="button-hero-next"
       >
