@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { SEO } from "@/components/SEO";
-import { Star, Eye, BookOpen, Calendar, User, ArrowUpDown, ArrowUp, ArrowDown, Search } from "lucide-react";
+import { Star, Eye, BookOpen, Calendar, User, ArrowUpDown, ArrowUp, ArrowDown, Search, ChevronLeft, ChevronRight } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import type { Manga } from "@shared/schema";
 
@@ -17,6 +17,8 @@ export default function MangaDetail() {
   const mangaId = params?.id || "";
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const [chapterSearch, setChapterSearch] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const chaptersPerPage = 20; // Show 20 chapters per page
   
   const { data: manga, isLoading, error } = useQuery<Manga>({
     queryKey: [`/api/manga/${mangaId}`],
@@ -52,6 +54,11 @@ export default function MangaDetail() {
     setLocation(`/manga/${mangaId}/chapter/${chapterNo}`);
   };
 
+  // Reset to first page when search changes or sort changes
+  const resetPagination = () => {
+    setCurrentPage(1);
+  };
+
   const sortedAndFilteredChapters = manga ? [...manga.chapters]
     .sort((a, b) => {
       return sortOrder === "asc" 
@@ -66,6 +73,13 @@ export default function MangaDetail() {
         chapter.chapter_no.toString().includes(searchLower)
       );
     }) : [];
+
+  // Pagination logic
+  const totalChapters = sortedAndFilteredChapters.length;
+  const totalPages = Math.ceil(totalChapters / chaptersPerPage);
+  const startIndex = (currentPage - 1) * chaptersPerPage;
+  const endIndex = startIndex + chaptersPerPage;
+  const paginatedChapters = sortedAndFilteredChapters.slice(startIndex, endIndex);
 
   return (
     <div className="min-h-screen bg-background">
@@ -190,7 +204,10 @@ export default function MangaDetail() {
                       <Button
                         variant={sortOrder === "asc" ? "default" : "outline"}
                         size="sm"
-                        onClick={() => setSortOrder("asc")}
+                        onClick={() => {
+                          setSortOrder("asc");
+                          resetPagination();
+                        }}
                         data-testid="button-sort-first-to-last"
                       >
                         <ArrowUp className="h-3 w-3 mr-1" />
@@ -199,7 +216,10 @@ export default function MangaDetail() {
                       <Button
                         variant={sortOrder === "desc" ? "default" : "outline"}
                         size="sm"
-                        onClick={() => setSortOrder("desc")}
+                        onClick={() => {
+                          setSortOrder("desc");
+                          resetPagination();
+                        }}
                         data-testid="button-sort-last-to-first"
                       >
                         <ArrowDown className="h-3 w-3 mr-1" />
@@ -207,7 +227,10 @@ export default function MangaDetail() {
                       </Button>
                     </div>
                     <Badge variant="secondary">
-                      {sortedAndFilteredChapters.length}{chapterSearch ? ` of ${manga.chapters.length}` : ''} chapters
+                      {totalChapters > chaptersPerPage 
+                        ? `Page ${currentPage} of ${totalPages} • ${totalChapters} chapters` 
+                        : `${totalChapters}${chapterSearch ? ` of ${manga.chapters.length}` : ''} chapters`
+                      }
                     </Badge>
                   </div>
                 </CardTitle>
@@ -217,7 +240,10 @@ export default function MangaDetail() {
                       type="search"
                       placeholder="Search chapters..."
                       value={chapterSearch}
-                      onChange={(e) => setChapterSearch(e.target.value)}
+                      onChange={(e) => {
+                        setChapterSearch(e.target.value);
+                        resetPagination();
+                      }}
                       className="pl-10"
                       data-testid="input-chapter-search"
                     />
@@ -227,8 +253,8 @@ export default function MangaDetail() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-2">
-                  {sortedAndFilteredChapters.length > 0 ? (
-                    sortedAndFilteredChapters.map((chapter, index) => (
+                  {totalChapters > 0 ? (
+                    paginatedChapters.map((chapter, index) => (
                     <div
                       key={index}
                       className="flex items-center justify-between p-3 rounded-md border hover:bg-muted/50 transition-colors cursor-pointer hover-elevate"
@@ -263,6 +289,77 @@ export default function MangaDetail() {
                           Clear Search
                         </Button>
                       )}
+                    </div>
+                  )}
+                  
+                  {/* Pagination Controls */}
+                  {totalPages > 1 && (
+                    <div className="flex items-center justify-between pt-4 border-t">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                        disabled={currentPage === 1}
+                        data-testid="button-prev-page"
+                      >
+                        <ChevronLeft className="h-4 w-4 mr-1" />
+                        Previous
+                      </Button>
+                      
+                      <div className="flex items-center gap-2">
+                        {/* Page Numbers */}
+                        {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                          let pageNum;
+                          if (totalPages <= 5) {
+                            pageNum = i + 1;
+                          } else if (currentPage <= 3) {
+                            pageNum = i + 1;
+                          } else if (currentPage >= totalPages - 2) {
+                            pageNum = totalPages - 4 + i;
+                          } else {
+                            pageNum = currentPage - 2 + i;
+                          }
+                          
+                          return (
+                            <Button
+                              key={pageNum}
+                              variant={currentPage === pageNum ? "default" : "outline"}
+                              size="sm"
+                              onClick={() => setCurrentPage(pageNum)}
+                              className="w-8 h-8 p-0"
+                              data-testid={`button-page-${pageNum}`}
+                            >
+                              {pageNum}
+                            </Button>
+                          );
+                        })}
+                        
+                        {totalPages > 5 && currentPage < totalPages - 2 && (
+                          <>
+                            <span className="text-muted-foreground">...</span>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => setCurrentPage(totalPages)}
+                              className="w-8 h-8 p-0"
+                              data-testid={`button-page-${totalPages}`}
+                            >
+                              {totalPages}
+                            </Button>
+                          </>
+                        )}
+                      </div>
+                      
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+                        disabled={currentPage === totalPages}
+                        data-testid="button-next-page"
+                      >
+                        Next
+                        <ChevronRight className="h-4 w-4 ml-1" />
+                      </Button>
                     </div>
                   )}
                 </div>
