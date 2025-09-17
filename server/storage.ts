@@ -97,6 +97,7 @@ export interface IStorage {
   
   // Reading progress operations
   getReadingProgress(mangaId: string): Promise<ReadingProgress | undefined>;
+  getBulkReadingProgress(mangaIds: string[]): Promise<Record<string, ReadingProgress>>;
   saveReadingProgress(progress: InsertReadingProgress): Promise<ReadingProgress>;
   getAllReadingProgress(): Promise<ReadingProgress[]>;
 }
@@ -243,6 +244,17 @@ export class FileStorage implements IStorage {
   // Reading progress operations
   async getReadingProgress(mangaId: string): Promise<ReadingProgress | undefined> {
     return this.readingProgress.get(mangaId);
+  }
+
+  async getBulkReadingProgress(mangaIds: string[]): Promise<Record<string, ReadingProgress>> {
+    const result: Record<string, ReadingProgress> = {};
+    for (const mangaId of mangaIds) {
+      const progress = this.readingProgress.get(mangaId);
+      if (progress) {
+        result[mangaId] = progress;
+      }
+    }
+    return result;
   }
 
   async saveReadingProgress(progress: InsertReadingProgress): Promise<ReadingProgress> {

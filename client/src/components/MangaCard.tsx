@@ -1,17 +1,68 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Star, Eye } from "lucide-react";
+import { Star, Eye, BookOpen } from "lucide-react";
 import { Link } from "wouter";
-import type { Manga } from "@shared/schema";
+import { useMemo } from "react";
+import type { Manga, ReadingProgress } from "@shared/schema";
 
 interface MangaCardProps {
   manga: Manga;
   showStats?: boolean;
+  readingProgress?: ReadingProgress;
 }
 
-export function MangaCard({ manga, showStats = true }: MangaCardProps) {
+export function MangaCard({ manga, showStats = true, readingProgress }: MangaCardProps) {
+
+  // Memoize calculations for stable refs and better performance
+  const { chapterLink, progressPercentage, hasProgress } = useMemo(() => {
+    // Determine which chapter to link to
+    const getChapterLink = () => {
+      // If there are no chapters, go to manga detail page
+      if (!manga.chapters || manga.chapters.length === 0) {
+        return `/manga/${manga.id}`;
+      }
+
+      // If there's reading progress, go to the last read chapter
+      if (readingProgress) {
+        return `/manga/${manga.id}/chapter/${readingProgress.chapterNo}`;
+      }
+
+      // Otherwise, go to the first chapter
+      const firstChapter = Math.min(...manga.chapters.map(ch => ch.chapter_no));
+      return `/manga/${manga.id}/chapter/${firstChapter}`;
+    };
+
+    // Calculate reading progress percentage based on chapter index, not raw chapter number
+    const getProgressPercentage = () => {
+      if (!readingProgress || !manga.chapters || manga.chapters.length === 0) {
+        return 0;
+      }
+      
+      // Sort chapters by chapter number to get proper ordering
+      const sortedChapters = [...manga.chapters].sort((a, b) => a.chapter_no - b.chapter_no);
+      
+      // Find the index of the current chapter in the sorted array
+      const currentChapterIndex = sortedChapters.findIndex(ch => ch.chapter_no === readingProgress.chapterNo);
+      
+      if (currentChapterIndex === -1) {
+        return 0;
+      }
+      
+      // Calculate percentage based on chapter index (0-based) + 1 to represent completion of that chapter
+      return Math.round(((currentChapterIndex + 1) / sortedChapters.length) * 100);
+    };
+
+    const percentage = getProgressPercentage();
+    
+    return {
+      chapterLink: getChapterLink(),
+      progressPercentage: percentage,
+      hasProgress: readingProgress && percentage > 0
+    };
+  }, [manga.chapters, manga.id, readingProgress]);
+
   return (
-    <Link href={`/manga/${manga.id}`}>
+    <Link href={chapterLink} data-testid={`link-manga-card-${manga.id}`}>
       <Card className="group cursor-pointer hover-elevate transition-all duration-300">
         <CardContent className="p-0">
           {/* Cover Image */}
@@ -32,14 +83,28 @@ export function MangaCard({ manga, showStats = true }: MangaCardProps) {
               {manga.status}
             </Badge>
             
-            {/* Featured/Popular Badges */}
+            {/* Reading Progress Badge */}
+            {hasProgress && (
+              <Badge variant="secondary" className="absolute top-2 left-2 text-xs bg-primary/90 text-primary-foreground">
+                <BookOpen className="h-3 w-3 mr-1" />
+                {progressPercentage}%
+              </Badge>
+            )}
+
+            {/* Featured/Popular Badges - shifted down if progress exists */}
             {manga.isFeatured && (
-              <Badge variant="destructive" className="absolute top-2 left-2 text-xs">
+              <Badge 
+                variant="destructive" 
+                className={`absolute text-xs ${hasProgress ? 'top-8 left-2' : 'top-2 left-2'}`}
+              >
                 Featured
               </Badge>
             )}
             {manga.isPopular && !manga.isFeatured && (
-              <Badge variant="default" className="absolute top-2 left-2 text-xs">
+              <Badge 
+                variant="default" 
+                className={`absolute text-xs ${hasProgress ? 'top-8 left-2' : 'top-2 left-2'}`}
+              >
                 Popular
               </Badge>
             )}

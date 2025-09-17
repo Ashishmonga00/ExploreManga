@@ -105,6 +105,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Get bulk reading progress for multiple manga IDs
+  app.post("/api/reading-progress/bulk", async (req, res) => {
+    try {
+      const { mangaIds } = req.body;
+      
+      if (!Array.isArray(mangaIds)) {
+        return res.status(400).json({ error: "mangaIds must be an array" });
+      }
+      
+      const progressMap = await storage.getBulkReadingProgress(mangaIds);
+      res.json(progressMap);
+    } catch (error) {
+      console.error("Error fetching bulk reading progress:", error);
+      res.status(500).json({ error: "Failed to fetch bulk reading progress" });
+    }
+  });
+
   // Get all reading progress
   app.get("/api/reading-progress", async (req, res) => {
     try {

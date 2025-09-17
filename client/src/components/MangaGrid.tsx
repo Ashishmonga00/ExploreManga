@@ -1,4 +1,5 @@
 import { MangaCard } from "./MangaCard";
+import { useReadingProgressMap } from "@/hooks/useReadingProgressMap";
 import type { Manga } from "@shared/schema";
 
 interface MangaGridProps {
@@ -8,6 +9,12 @@ interface MangaGridProps {
 }
 
 export function MangaGrid({ manga, title, showStats = true }: MangaGridProps) {
+  // Extract manga IDs for bulk reading progress fetch
+  const mangaIds = manga.map(m => m.id);
+  
+  // Fetch reading progress for all manga at once to fix N+1 query problem
+  const { progressMap } = useReadingProgressMap(mangaIds);
+
   return (
     <section className="space-y-6">
       {title && (
@@ -21,6 +28,7 @@ export function MangaGrid({ manga, title, showStats = true }: MangaGridProps) {
             key={item.id}
             manga={item}
             showStats={showStats}
+            readingProgress={progressMap[item.id]}
           />
         ))}
       </div>
