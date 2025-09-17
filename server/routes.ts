@@ -2,6 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { z } from "zod";
+import { insertReadingProgressSchema } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Get all categories
@@ -69,6 +70,49 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error fetching manga:", error);
       res.status(500).json({ error: "Failed to fetch manga" });
+    }
+  });
+
+  // Get reading progress for a manga
+  app.get("/api/reading-progress/:mangaId", async (req, res) => {
+    try {
+      const { mangaId } = req.params;
+      const progress = await storage.getReadingProgress(mangaId);
+      
+      if (!progress) {
+        return res.status(404).json({ error: "No reading progress found" });
+      }
+      
+      res.json(progress);
+    } catch (error) {
+      console.error(`Error fetching reading progress for manga ${req.params.mangaId}:`, error);
+      res.status(500).json({ error: "Failed to fetch reading progress" });
+    }
+  });
+
+  // Save reading progress for a manga
+  app.post("/api/reading-progress", async (req, res) => {
+    try {
+      const validatedProgress = insertReadingProgressSchema.parse(req.body);
+      const progress = await storage.saveReadingProgress(validatedProgress);
+      res.json(progress);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ error: "Invalid reading progress data", details: error.errors });
+      }
+      console.error("Error saving reading progress:", error);
+      res.status(500).json({ error: "Failed to save reading progress" });
+    }
+  });
+
+  // Get all reading progress
+  app.get("/api/reading-progress", async (req, res) => {
+    try {
+      const allProgress = await storage.getAllReadingProgress();
+      res.json(allProgress);
+    } catch (error) {
+      console.error("Error fetching all reading progress:", error);
+      res.status(500).json({ error: "Failed to fetch reading progress" });
     }
   });
 

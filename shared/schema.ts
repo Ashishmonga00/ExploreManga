@@ -45,3 +45,17 @@ export const insertCategorySchema = categorySchema.omit({ id: true });
 
 export type InsertManga = z.infer<typeof insertMangaSchema>;
 export type InsertCategory = z.infer<typeof insertCategorySchema>;
+
+// Reading progress schema
+export const readingProgressSchema = z.object({
+  id: z.string(),
+  mangaId: z.string(),
+  chapterNo: z.number(),
+  pageNo: z.number().default(0), // Current page within chapter
+  lastReadAt: z.string(), // ISO date string
+});
+
+export type ReadingProgress = z.infer<typeof readingProgressSchema>;
+
+export const insertReadingProgressSchema = readingProgressSchema.omit({ id: true });
+export type InsertReadingProgress = z.infer<typeof insertReadingProgressSchema>;

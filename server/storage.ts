@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { randomUUID } from "crypto";
-import type { Manga, Category, InsertManga, InsertCategory } from "@shared/schema";
+import type { Manga, Category, InsertManga, InsertCategory, ReadingProgress, InsertReadingProgress } from "@shared/schema";
 
 // Helper function to extract genre from attributes
 function extractGenres(attributes: string[]): string[] {
@@ -94,11 +94,17 @@ export interface IStorage {
   // Category operations
   getAllCategories(): Promise<Category[]>;
   getCategoryByName(name: string): Promise<Category | undefined>;
+  
+  // Reading progress operations
+  getReadingProgress(mangaId: string): Promise<ReadingProgress | undefined>;
+  saveReadingProgress(progress: InsertReadingProgress): Promise<ReadingProgress>;
+  getAllReadingProgress(): Promise<ReadingProgress[]>;
 }
 
 export class FileStorage implements IStorage {
   private mangaData: Map<string, Manga> = new Map();
   private categories: Map<string, Category> = new Map();
+  private readingProgress: Map<string, ReadingProgress> = new Map();
   private initialized = false;
 
   constructor() {
@@ -232,6 +238,27 @@ export class FileStorage implements IStorage {
   async getCategoryByName(name: string): Promise<Category | undefined> {
     await this.loadData();
     return this.categories.get(name.toLowerCase());
+  }
+
+  // Reading progress operations
+  async getReadingProgress(mangaId: string): Promise<ReadingProgress | undefined> {
+    return this.readingProgress.get(mangaId);
+  }
+
+  async saveReadingProgress(progress: InsertReadingProgress): Promise<ReadingProgress> {
+    const id = randomUUID();
+    const readingProgress: ReadingProgress = {
+      id,
+      ...progress,
+    };
+    
+    // Store by mangaId for easy lookup (one progress per manga)
+    this.readingProgress.set(progress.mangaId, readingProgress);
+    return readingProgress;
+  }
+
+  async getAllReadingProgress(): Promise<ReadingProgress[]> {
+    return Array.from(this.readingProgress.values());
   }
 }
 
