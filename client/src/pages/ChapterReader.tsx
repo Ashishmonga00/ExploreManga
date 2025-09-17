@@ -32,6 +32,23 @@ export default function ChapterReader() {
     },
   });
 
+  // Save reading progress when chapter loads or changes - MOVED BEFORE EARLY RETURNS
+  useEffect(() => {
+    if (manga && mangaId && chapterNo) {
+      const currentChapter = manga.chapters.find(c => c.chapter_no === chapterNo);
+      if (currentChapter) {
+        const progress: InsertReadingProgress = {
+          mangaId,
+          chapterNo,
+          pageNo: 1, // First page (1-indexed)
+          lastReadAt: new Date().toISOString(),
+        };
+
+        saveProgressMutation.mutate(progress);
+      }
+    }
+  }, [manga, mangaId, chapterNo, saveProgressMutation]);
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
@@ -79,20 +96,6 @@ export default function ChapterReader() {
   const currentChapterIndex = manga.chapters.findIndex(c => c.chapter_no === chapterNo);
   const prevChapter = currentChapterIndex > 0 ? manga.chapters[currentChapterIndex - 1] : null;
   const nextChapter = currentChapterIndex < manga.chapters.length - 1 ? manga.chapters[currentChapterIndex + 1] : null;
-
-  // Save reading progress when chapter loads or changes
-  useEffect(() => {
-    if (manga && currentChapter) {
-      const progress: InsertReadingProgress = {
-        mangaId,
-        chapterNo,
-        pageNo: 1, // First page (1-indexed)
-        lastReadAt: new Date().toISOString(),
-      };
-
-      saveProgressMutation.mutate(progress);
-    }
-  }, [manga, currentChapter, mangaId, chapterNo]);
 
   const navigateToChapter = (targetChapterNo: number) => {
     // Simply navigate - progress will be saved by useEffect after route change
