@@ -6,8 +6,8 @@ export default function Privacy() {
   return (
     <div className="min-h-screen bg-background">
       <SEO 
-        title="Privacy Policy - MangaVerse"
-        description="Learn about how MangaVerse collects, uses, and protects your personal information when you use our manga reading platform."
+        title="Privacy Policy - Explore Manga"
+        description="Learn about how Explore Manga collects, uses, and protects your personal information when you use our manga reading platform."
         type="website"
       />
       
@@ -104,7 +104,7 @@ export default function Privacy() {
             <section>
               <h2 className="text-xl font-semibold mb-3">Contact Us</h2>
               <p className="text-muted-foreground">
-                If you have questions about this Privacy Policy, please contact us at privacy@mangaverse.com
+                If you have questions about this Privacy Policy, please contact us at privacy@exploremanga.com
               </p>
             </section>
           </CardContent>

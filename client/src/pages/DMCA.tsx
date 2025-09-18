@@ -8,8 +8,8 @@ export default function DMCA() {
   return (
     <div className="min-h-screen bg-background">
       <SEO 
-        title="DMCA Notice - MangaVerse"
-        description="Learn about MangaVerse's DMCA policy and how to report copyright infringement. Submit takedown notices and understand our copyright protection process."
+        title="DMCA Notice - Explore Manga"
+        description="Learn about Explore Manga's DMCA policy and how to report copyright infringement. Submit takedown notices and understand our copyright protection process."
         type="website"
       />
       
@@ -27,7 +27,7 @@ export default function DMCA() {
             <Alert>
               <AlertTriangle className="h-4 w-4" />
               <AlertDescription>
-                MangaVerse respects the intellectual property rights of others and expects our users to do the same.
+                Explore Manga respects the intellectual property rights of others and expects our users to do the same.
               </AlertDescription>
             </Alert>
 
@@ -68,7 +68,7 @@ export default function DMCA() {
               <Alert>
                 <Mail className="h-4 w-4" />
                 <AlertDescription className="space-y-2">
-                  <div><strong>Email:</strong> dmca@mangaverse.com</div>
+                  <div><strong>Email:</strong> dmca@exploremanga.com</div>
                   <div><strong>Subject Line:</strong> DMCA Takedown Request</div>
                   <div><strong>Response Time:</strong> We will respond within 2-3 business days</div>
                 </AlertDescription>
@@ -130,7 +130,7 @@ export default function DMCA() {
             <section>
               <h2 className="text-xl font-semibold mb-3">Contact Information</h2>
               <p className="text-muted-foreground">
-                For all DMCA-related inquiries, please contact our designated agent at dmca@mangaverse.com
+                For all DMCA-related inquiries, please contact our designated agent at dmca@exploremanga.com
               </p>
             </section>
           </CardContent>

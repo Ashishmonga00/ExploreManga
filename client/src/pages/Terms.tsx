@@ -6,8 +6,8 @@ export default function Terms() {
   return (
     <div className="min-h-screen bg-background">
       <SEO 
-        title="Terms of Service - MangaVerse"
-        description="Read the terms and conditions for using MangaVerse manga reading platform. Learn about user responsibilities and service guidelines."
+        title="Terms of Service - Explore Manga"
+        description="Read the terms and conditions for using Explore Manga manga reading platform. Learn about user responsibilities and service guidelines."
         type="website"
       />
       
@@ -25,7 +25,7 @@ export default function Terms() {
             <section>
               <h2 className="text-xl font-semibold mb-3">Acceptance of Terms</h2>
               <p className="text-muted-foreground">
-                By accessing and using MangaVerse, you accept and agree to be bound by the terms 
+                By accessing and using Explore Manga, you accept and agree to be bound by the terms 
                 and provision of this agreement. If you do not agree to abide by the above, 
                 please do not use this service.
               </p>
@@ -36,7 +36,7 @@ export default function Terms() {
             <section>
               <h2 className="text-xl font-semibold mb-3">Use License</h2>
               <p className="text-muted-foreground mb-3">
-                Permission is granted to temporarily access the materials on MangaVerse for 
+                Permission is granted to temporarily access the materials on Explore Manga for 
                 personal, non-commercial transitory viewing only. This is the grant of a license, 
                 not a transfer of title, and under this license you may not:
               </p>
@@ -127,7 +127,7 @@ export default function Terms() {
             <section>
               <h2 className="text-xl font-semibold mb-3">Contact Information</h2>
               <p className="text-muted-foreground">
-                If you have any questions about these Terms of Service, please contact us at legal@mangaverse.com
+                If you have any questions about these Terms of Service, please contact us at legal@exploremanga.com
               </p>
             </section>
           </CardContent>

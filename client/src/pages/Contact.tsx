@@ -41,9 +41,9 @@ export default function Contact() {
   return (
     <div className="min-h-screen bg-background">
       <SEO 
-        title="Contact Us - Get in Touch | MangaLibrary"
-        description="Have a question, suggestion, or feedback about MangaLibrary? Contact our team and we'll get back to you soon. We'd love to hear from you!"
-        keywords="contact mangalibrary, manga support, customer service, feedback, help, questions"
+        title="Contact Us - Get in Touch | Explore Manga"
+        description="Have a question, suggestion, or feedback about Explore Manga? Contact our team and we'll get back to you soon. We'd love to hear from you!"
+        keywords="contact explore manga, manga support, customer service, feedback, help, questions"
         type="website"
       />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -148,7 +148,7 @@ export default function Contact() {
                     <div>
                       <p className="font-medium">Email</p>
                       <p className="text-sm text-muted-foreground">
-                        support@mangaverse.com
+                        support@exploremanga.com
                       </p>
                     </div>
                   </div>
@@ -196,7 +196,7 @@ export default function Contact() {
                   </div>
                   
                   <div>
-                    <p className="font-medium text-sm">Is MangaVerse free?</p>
+                    <p className="font-medium text-sm">Is Explore Manga free?</p>
                     <p className="text-xs text-muted-foreground mt-1">
                       Yes, all content is free to read with optional premium features.
                     </p>

@@ -1,8 +1,8 @@
-# MangaVerse - A Comprehensive Manga Reading Platform
+# Explore Manga - A Comprehensive Manga Reading Platform
 
 ## Overview
 
-MangaVerse is a modern, full-stack manga reading platform built with React, Express, and TypeScript. The application provides a comprehensive manga browsing and reading experience with features like category-based organization, search functionality, detailed manga information, and a responsive design optimized for both desktop and mobile devices. The platform draws inspiration from popular manga websites like MyAnimeList and MangaDex, offering a clean, content-focused interface that prioritizes readability and user experience.
+Explore Manga is a modern, full-stack manga reading platform built with React, Express, and TypeScript. The application provides a comprehensive manga browsing and reading experience with features like category-based organization, search functionality, detailed manga information, and a responsive design optimized for both desktop and mobile devices. The platform draws inspiration from popular manga websites like MyAnimeList and MangaDex, offering a clean, content-focused interface that prioritizes readability and user experience.
 
 ## User Preferences
 

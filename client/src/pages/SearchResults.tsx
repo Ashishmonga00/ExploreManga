@@ -74,8 +74,8 @@ export default function SearchResults() {
   return (
     <div className="min-h-screen bg-background">
       <SEO 
-        title={`Search Results: "${searchQuery}" | MangaLibrary`}
-        description={`Search results for "${searchQuery}" on MangaLibrary. ${searchResults.length > 0 ? `Found ${searchResults.length} manga${searchResults.length !== 1 ? 's' : ''} matching your search.` : 'No results found, try different keywords.'}`}
+        title={`Search Results: "${searchQuery}" | Explore Manga`}
+        description={`Search results for "${searchQuery}" on Explore Manga. ${searchResults.length > 0 ? `Found ${searchResults.length} manga${searchResults.length !== 1 ? 's' : ''} matching your search.` : 'No results found, try different keywords.'}`}
         keywords={`${searchQuery}, manga search, find manga, manga library`}
         type="website"
       />

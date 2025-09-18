@@ -14,7 +14,7 @@ export function Footer() {
           <div className="space-y-3">
             <div className="flex items-center gap-2">
               <BookOpen className="h-5 w-5 text-primary" />
-              <h3 className="text-base font-bold text-foreground">MangaVerse</h3>
+              <h3 className="text-base font-bold text-foreground">Explore Manga</h3>
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed">
               Your ultimate destination for reading manga online. Discover thousands of titles, 
@@ -113,7 +113,7 @@ export function Footer() {
 
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="text-sm text-muted-foreground">
-            © {currentYear} MangaVerse. All rights reserved.
+            © {currentYear} Explore Manga. All rights reserved.
           </div>
           <div className="flex items-center gap-6 text-sm">
             <Link href="/privacy">

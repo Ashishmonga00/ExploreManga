@@ -39,8 +39,8 @@ export default function CategoryPage() {
   return (
     <div className="min-h-screen bg-background">
       <SEO 
-        title={`${categoryName} Manga - Browse ${categoryName} Series | MangaLibrary`}
-        description={`Discover ${categoryManga.length} ${categoryName.toLowerCase()} manga series on MangaLibrary. ${description} Read your favorite ${categoryName.toLowerCase()} manga online for free.`}
+        title={`${categoryName} Manga - Browse ${categoryName} Series | Explore Manga`}
+        description={`Discover ${categoryManga.length} ${categoryName.toLowerCase()} manga series on Explore Manga. ${description} Read your favorite ${categoryName.toLowerCase()} manga online for free.`}
         keywords={`${categoryName.toLowerCase()} manga, ${categoryName.toLowerCase()} series, read ${categoryName.toLowerCase()} manga online, ${categoryName.toLowerCase()} comics`}
         type="website"
         url={typeof window !== 'undefined' ? window.location.href : ''}
