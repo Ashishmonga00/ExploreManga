@@ -47,7 +47,7 @@ export function SEO({
     setMetaTag("og:title", title, true);
     setMetaTag("og:description", description, true);
     setMetaTag("og:type", type, true);
-    setMetaTag("og:site_name", "MangaLibrary", true);
+    setMetaTag("og:site_name", "Explore Manga", true);
     
     if (url) setMetaTag("og:url", url, true);
     if (image) setMetaTag("og:image", image, true);

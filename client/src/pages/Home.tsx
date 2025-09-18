@@ -52,9 +52,9 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background">
       <SEO 
-        title="MangaLibrary - Read Manga Online Free | Thousands of Titles"
-        description="Discover and read thousands of manga online for free. From popular series to hidden gems, action to romance - find your next favorite manga at MangaLibrary."
-        keywords="manga, read manga online, free manga, manga reader, japanese comics, manga library, online comics"
+        title="Explore Manga - Read Manga Online Free | Thousands of Titles"
+        description="Discover and read thousands of manga online for free. From popular series to hidden gems, action to romance - find your next favorite manga at Explore Manga."
+        keywords="manga, read manga online, free manga, manga reader, japanese comics, manga library, online comics, https://exploremanga.com/, explore manga"
         type="website"
       />
       
