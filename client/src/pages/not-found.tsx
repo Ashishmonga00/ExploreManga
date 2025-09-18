@@ -6,8 +6,8 @@ export default function NotFound() {
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-gray-50">
       <SEO 
-        title="404 - Page Not Found | MangaLibrary"
-        description="The page you're looking for could not be found. Return to MangaLibrary to continue browsing manga."
+        title="404 - Page Not Found | Explore Manga"
+        description="The page you're looking for could not be found. Return to Explore Manga to continue browsing manga."
         robots="noindex, nofollow"
         type="website"
       />

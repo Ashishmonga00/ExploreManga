@@ -61,7 +61,7 @@ export default function Authors() {
   return (
     <div className="min-h-screen bg-background">
       <SEO 
-        title="Manga Authors - Browse by Author | MangaLibrary"
+        title="Manga Authors - Browse by Author | Explore Manga"
         description={`Explore manga by your favorite authors. Browse our collection of ${authors.length} manga authors and discover new series from talented creators.`}
         keywords="manga authors, manga creators, author browse, manga by author"
         type="website"

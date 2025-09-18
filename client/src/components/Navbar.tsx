@@ -34,7 +34,7 @@ export function Navbar() {
             <div className="flex items-center space-x-2 hover-elevate rounded-md px-3 py-2">
               <BookOpen className="h-8 w-8 text-primary" />
               <span className="text-xl font-display font-bold text-foreground">
-                MangaVerse
+                Explore Manga
               </span>
             </div>
           </Link>
