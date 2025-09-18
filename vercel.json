@@ -4,10 +4,7 @@
   "outputDirectory": "dist/public",
   "functions": {
     "api/index.ts": {
-      "runtime": "nodejs18.x",
-      "includeFiles": [
-        "dist/**/*"
-      ]
+      "runtime": "nodejs18.x"
     }
   },
   "routes": [
