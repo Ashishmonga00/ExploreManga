@@ -6,14 +6,16 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { SEO } from "@/components/SEO";
-import { Star, Eye, BookOpen, Calendar, User, ArrowUpDown, ArrowUp, ArrowDown, Search, ChevronLeft, ChevronRight } from "lucide-react";
+import { Star, Eye, BookOpen, Calendar, User, ArrowUpDown, ArrowUp, ArrowDown, Search, ChevronLeft, ChevronRight, Share2 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
+import { useToast } from "@/hooks/use-toast";
 import type { Manga } from "@shared/schema";
 
 
 export default function MangaDetail() {
   const [, params] = useRoute("/manga/:id");
   const [, setLocation] = useLocation();
+  const { toast } = useToast();
   const mangaId = params?.id || "";
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const [chapterSearch, setChapterSearch] = useState("");
@@ -54,6 +56,34 @@ export default function MangaDetail() {
     setLocation(`/manga/${mangaId}/chapter/${chapterNo}`);
   };
 
+  const handleShare = async () => {
+    const shareData = {
+      title: `${manga?.title} - Explore Manga`,
+      text: `Check out ${manga?.title} on Explore Manga!`,
+      url: window.location.href,
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        // Fallback to clipboard
+        await navigator.clipboard.writeText(window.location.href);
+        toast({
+          title: "Link copied!",
+          description: "The manga link has been copied to your clipboard.",
+        });
+      }
+    } catch (error) {
+      // Fallback if both share and clipboard fail
+      toast({
+        title: "Unable to share",
+        description: "Please copy the URL manually from your browser's address bar.",
+        variant: "destructive",
+      });
+    }
+  };
+
   // Reset to first page when search changes or sort changes
   const resetPagination = () => {
     setCurrentPage(1);
@@ -84,8 +114,8 @@ export default function MangaDetail() {
   return (
     <div className="min-h-screen bg-background">
       <SEO 
-        title={`${manga.title} - Read Online | MangaLibrary`}
-        description={`Read ${manga.title} manga online for free. ${manga.description || manga.summary || `${manga.title} is available with all chapters on MangaLibrary.`}`}
+        title={`${manga.title} - Read Online | Explore Manga`}
+        description={`Read ${manga.title} manga online for free. ${manga.description || manga.summary || `${manga.title} is available with all chapters on Explore Manga.`}`}
         keywords={`${manga.title}, manga, read online, ${manga.author}, ${(manga.genre || []).join(', ')}`}
         image={manga.cover_image || manga.coverImage}
         type="article"
@@ -166,15 +196,28 @@ export default function MangaDetail() {
 
                   <Separator />
 
-                  <Button 
-                    size="lg" 
-                    className="w-full"
-                    onClick={() => handleReadChapter(manga.chapters?.[0]?.chapter_no || 1)}
-                    data-testid={`button-start-reading-${manga.id}`}
-                  >
-                    <BookOpen className="mr-2 h-4 w-4" />
-                    Start Reading
-                  </Button>
+                  <div className="space-y-3">
+                    <Button 
+                      size="lg" 
+                      className="w-full"
+                      onClick={() => handleReadChapter(manga.chapters?.[0]?.chapter_no || 1)}
+                      data-testid={`button-start-reading-${manga.id}`}
+                    >
+                      <BookOpen className="mr-2 h-4 w-4" />
+                      Start Reading
+                    </Button>
+                    
+                    <Button 
+                      variant="outline"
+                      size="lg" 
+                      className="w-full"
+                      onClick={handleShare}
+                      data-testid={`button-share-${manga.id}`}
+                    >
+                      <Share2 className="mr-2 h-4 w-4" />
+                      Share
+                    </Button>
+                  </div>
                 </div>
               </CardContent>
             </Card>
