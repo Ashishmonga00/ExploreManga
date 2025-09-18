@@ -1,0 +1,39 @@
+[00:00:26.988] Running build in Washington, D.C., USA (East) – iad1
+[00:00:26.988] Build machine configuration: 2 cores, 8 GB
+[00:00:27.005] Cloning github.com/Ashishmonga00/ExploreManga (Branch: main, Commit: 5a1ca25)
+[00:00:27.159] Previous build caches not available
+[00:00:27.591] Cloning completed: 586.000ms
+[00:00:27.977] Running "vercel build"
+[00:00:28.374] Vercel CLI 48.0.2
+[00:00:29.131] Installing dependencies...
+[00:00:33.546] npm warn deprecated @esbuild-kit/esm-loader@2.6.5: Merged into tsx: https://tsx.is
+[00:00:33.647] npm warn deprecated @esbuild-kit/core-utils@3.3.2: Merged into tsx: https://tsx.is
+[00:00:38.391] 
+[00:00:38.392] added 481 packages in 9s
+[00:00:38.393] 
+[00:00:38.393] 64 packages are looking for funding
+[00:00:38.393]   run `npm fund` for details
+[00:00:38.552] 
+[00:00:38.553] > rest-express@1.0.0 build
+[00:00:38.553] > vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
+[00:00:38.553] 
+[00:00:38.945] [36mvite v5.4.19 [32mbuilding for production...[36m[39m
+[00:00:38.992] transforming...
+[00:00:39.245] Browserslist: browsers data (caniuse-lite) is 11 months old. Please run:
+[00:00:39.246]   npx update-browserslist-db@latest
+[00:00:39.246]   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+[00:00:40.200] 
+[00:00:40.201] A PostCSS plugin did not pass the `from` option to `postcss.parse`. This may cause imported assets to be incorrectly transformed. If you've recently added a PostCSS plugin that raised this warning, please contact the package author to fix the issue.
+[00:00:42.986] [32m✓[39m 1691 modules transformed.
+[00:00:43.237] rendering chunks...
+[00:00:43.246] computing gzip size...
+[00:00:43.262] [2m../dist/public/[22m[32mindex.html                 [39m[1m[2m  1.59 kB[22m[1m[22m[2m │ gzip:   0.70 kB[22m
+[00:00:43.263] [2m../dist/public/[22m[2massets/[22m[35mindex-S4JZ5qrC.css  [39m[1m[2m 76.47 kB[22m[1m[22m[2m │ gzip:  12.39 kB[22m
+[00:00:43.263] [2m../dist/public/[22m[2massets/[22m[36mindex-ntaMEspQ.js   [39m[1m[2m351.59 kB[22m[1m[22m[2m │ gzip: 105.77 kB[22m
+[00:00:43.263] [32m✓ built in 4.30s[39m
+[00:00:43.296] 
+[00:00:43.296]   dist/index.js  19.6kb
+[00:00:43.296] 
+[00:00:43.296] ⚡ Done in 5ms
+[00:00:43.312] Error: No Output Directory named "dist" found after the Build completed. Update vercel.json#outputDirectory to ensure the correct output directory is generated.
+[00:00:43.313] Learn More: https://vercel.link/missing-public-directory
