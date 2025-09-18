@@ -17,19 +17,13 @@ export function MangaCard({ manga, showStats = true, readingProgress }: MangaCar
   const { chapterLink, progressPercentage, hasProgress } = useMemo(() => {
     // Determine which chapter to link to
     const getChapterLink = () => {
-      // If there are no chapters, go to manga detail page
-      if (!manga.chapters || manga.chapters.length === 0) {
-        return `/manga/${manga.id}`;
-      }
-
       // If there's reading progress, go to the last read chapter
       if (readingProgress) {
         return `/manga/${manga.id}/chapter/${readingProgress.chapterNo}`;
       }
 
-      // Otherwise, go to the first chapter
-      const firstChapter = Math.min(...manga.chapters.map(ch => ch.chapter_no));
-      return `/manga/${manga.id}/chapter/${firstChapter}`;
+      // Otherwise, always go to manga detail page (summary page)
+      return `/manga/${manga.id}`;
     };
 
     // Calculate reading progress percentage based on chapter index, not raw chapter number
