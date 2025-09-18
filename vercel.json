@@ -2,11 +2,6 @@
   "version": 2,
   "buildCommand": "npm run build && node build-server.mjs",
   "outputDirectory": "dist/public",
-  "functions": {
-    "api/index.ts": {
-      "runtime": "nodejs18.x"
-    }
-  },
   "routes": [
     {
       "src": "/api/(.*)",
