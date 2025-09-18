@@ -1,6 +1,6 @@
 import express, { type Request, Response, NextFunction } from "express";
-import { registerRoutes } from "../server/routes";
-import { storage } from "../server/storage";
+const { registerRoutes } = require("../dist/server/routes.js");
+const { storage } = require("../dist/server/storage.js");
 
 const app = express();
 

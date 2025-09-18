@@ -1,10 +1,13 @@
 {
   "version": 2,
-  "buildCommand": "npm run build",
+  "buildCommand": "npm run build && node build-server.mjs",
   "outputDirectory": "dist/public",
   "functions": {
     "api/index.ts": {
-      "includeFiles": "server/**"
+      "runtime": "nodejs18.x",
+      "includeFiles": [
+        "dist/**/*"
+      ]
     }
   },
   "routes": [
