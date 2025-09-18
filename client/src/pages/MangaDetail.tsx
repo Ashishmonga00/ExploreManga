@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRoute, useLocation, Link } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -24,11 +24,6 @@ export default function MangaDetail() {
     queryKey: [`/api/manga/${mangaId}`],
     enabled: !!mangaId,
   });
-
-  // Scroll to top when component loads or manga changes
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [mangaId]);
 
   if (isLoading) {
     return (

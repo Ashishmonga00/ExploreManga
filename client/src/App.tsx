@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "./components/ThemeProvider";
 import { Navbar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
+import { ScrollToTop } from "./components/ScrollToTop";
 import Home from "@/pages/Home";
 import Categories from "@/pages/Categories";
 import CategoryPage from "@/pages/CategoryPage";
@@ -43,6 +44,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <ThemeProvider>
+          <ScrollToTop />
           <div className="min-h-screen bg-background flex flex-col">
             <Navbar />
             <div className="flex-1">
