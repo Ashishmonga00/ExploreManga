@@ -116,7 +116,10 @@ export class FileStorage implements IStorage {
     if (this.initialized) return;
 
     try {
-      const dataDir = path.join(process.cwd(), 'server/data');
+      // In production/Vercel, data is in dist/data; in development, it's in server/data
+      const dataDir = fs.existsSync(path.join(process.cwd(), 'dist/data')) 
+        ? path.join(process.cwd(), 'dist/data')
+        : path.join(process.cwd(), 'server/data');
       const files = fs.readdirSync(dataDir).filter(file => file.endsWith('.json'));
       
       // Load manga data
