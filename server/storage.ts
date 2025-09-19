@@ -117,9 +117,24 @@ export class FileStorage implements IStorage {
 
     try {
       // In production/Vercel, data is in dist/data; in development, it's in server/data
-      const dataDir = fs.existsSync(path.join(process.cwd(), 'dist/data')) 
-        ? path.join(process.cwd(), 'dist/data')
-        : path.join(process.cwd(), 'server/data');
+      // Check for Vercel environment first, then fallback to development
+      let dataDir;
+      const distDataPath = path.join(process.cwd(), 'dist/data');
+      const serverDataPath = path.join(process.cwd(), 'server/data');
+      
+      try {
+        fs.accessSync(distDataPath);
+        dataDir = distDataPath;
+        console.log('Using production data path:', dataDir);
+      } catch {
+        try {
+          fs.accessSync(serverDataPath);
+          dataDir = serverDataPath;
+          console.log('Using development data path:', dataDir);
+        } catch {
+          throw new Error(`Data directory not found. Tried: ${distDataPath} and ${serverDataPath}`);
+        }
+      }
       const files = fs.readdirSync(dataDir).filter(file => file.endsWith('.json'));
       
       // Load manga data
