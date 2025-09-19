@@ -6,8 +6,8 @@ import fs from 'fs';
 console.log('Compiling server modules for Vercel deployment...');
 
 try {
-  // Compile server modules to JavaScript
-  execSync('npx esbuild server/routes.ts server/storage.ts shared/schema.ts --platform=node --packages=external --format=cjs --outdir=dist --out-extension:.js=.cjs', { stdio: 'inherit' });
+  // Bundle server modules into a single JavaScript file
+  execSync('npx esbuild server/routes.ts --bundle --platform=node --packages=external --format=cjs --outfile=dist/server-bundle.cjs --external:fs --external:path --external:crypto', { stdio: 'inherit' });
   
   // Copy data files to dist directory
   console.log('Copying data files...');

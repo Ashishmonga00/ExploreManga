@@ -1,6 +1,5 @@
 const express = require("express");
-const { registerRoutes } = require("../dist/server/routes.cjs");
-const { storage } = require("../dist/server/storage.cjs");
+const { registerRoutes, storage } = require("../dist/server-bundle.cjs");
 
 const app = express();
 

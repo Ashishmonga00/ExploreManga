@@ -137,3 +137,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   return httpServer;
 }
+
+// Export storage for use in serverless function
+export { storage };
