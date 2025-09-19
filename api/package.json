@@ -1,6 +1,7 @@
 {
   "name": "explore-manga-api",
   "version": "1.0.0",
+  "type": "commonjs",
   "dependencies": {
     "express": "^4.21.2",
     "drizzle-orm": "^0.39.1",
