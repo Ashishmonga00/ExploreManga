@@ -116,24 +116,54 @@ export class FileStorage implements IStorage {
     if (this.initialized) return;
 
     try {
-      // In production/Vercel, data is in dist/data; in development, it's in server/data
-      // Check for Vercel environment first, then fallback to development
-      let dataDir;
-      const distDataPath = path.join(process.cwd(), 'dist/data');
-      const serverDataPath = path.join(process.cwd(), 'server/data');
+      // Debug: Log current working directory and available files
+      console.log('Current working directory:', process.cwd());
+      console.log('Available files in cwd:', fs.readdirSync(process.cwd()).slice(0, 10));
       
-      try {
-        fs.accessSync(distDataPath);
-        dataDir = distDataPath;
-        console.log('Using production data path:', dataDir);
-      } catch {
+      // Try multiple possible locations for data files
+      const possiblePaths = [
+        path.join(process.cwd(), 'dist/data'),           // Build output
+        path.join(process.cwd(), 'server/data'),         // Development
+        path.join(process.cwd(), '..', 'dist/data'),     // One level up
+        path.join(__dirname, 'data'),                    // Relative to bundle
+        path.join(__dirname, '..', 'data'),              // Bundle parent
+        path.join(__dirname, '..', '..', 'dist/data'),   // Bundle grandparent
+      ];
+      
+      let dataDir;
+      for (const testPath of possiblePaths) {
         try {
-          fs.accessSync(serverDataPath);
-          dataDir = serverDataPath;
-          console.log('Using development data path:', dataDir);
+          fs.accessSync(testPath);
+          dataDir = testPath;
+          console.log('Found data directory at:', dataDir);
+          break;
         } catch {
-          throw new Error(`Data directory not found. Tried: ${distDataPath} and ${serverDataPath}`);
+          console.log('Data not found at:', testPath);
         }
+      }
+      
+      if (!dataDir) {
+        // List all directories to help debug
+        console.log('Debugging: listing all directories...');
+        const listDir = (dirPath: string, depth = 0): void => {
+          if (depth > 2) return;
+          try {
+            const items = fs.readdirSync(dirPath);
+            for (const item of items.slice(0, 5)) {
+              const itemPath = path.join(dirPath, item);
+              const stats = fs.statSync(itemPath);
+              console.log(' '.repeat(depth * 2), stats.isDirectory() ? `[DIR]` : `[FILE]`, item);
+              if (stats.isDirectory() && depth < 2) {
+                listDir(itemPath, depth + 1);
+              }
+            }
+          } catch (e) {
+            console.log(' '.repeat(depth * 2), `[ERROR accessing ${dirPath}]`);
+          }
+        };
+        listDir(process.cwd());
+        
+        throw new Error(`Data directory not found. Tried: ${possiblePaths.join(', ')}`);
       }
       const files = fs.readdirSync(dataDir).filter(file => file.endsWith('.json'));
       
