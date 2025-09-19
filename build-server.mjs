@@ -7,7 +7,7 @@ console.log('Compiling server modules for Vercel deployment...');
 
 try {
   // Compile server modules to JavaScript
-  execSync('npx esbuild server/routes.ts server/storage.ts shared/schema.ts --platform=node --packages=external --format=cjs --outdir=dist', { stdio: 'inherit' });
+  execSync('npx esbuild server/routes.ts server/storage.ts shared/schema.ts --platform=node --packages=external --format=cjs --outdir=dist --out-extension:.js=.cjs', { stdio: 'inherit' });
   
   // Copy data files to dist directory
   console.log('Copying data files...');
