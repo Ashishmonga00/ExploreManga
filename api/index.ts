@@ -1,4 +1,4 @@
-import express, { type Request, Response, NextFunction } from "express";
+const express = require("express");
 const { registerRoutes } = require("../dist/server/routes.js");
 const { storage } = require("../dist/server/storage.js");
 
@@ -125,4 +125,4 @@ app.get("/api/health", (req, res) => {
 });
 
 // Export the Express API for Vercel
-export default app;
+module.exports = app;
